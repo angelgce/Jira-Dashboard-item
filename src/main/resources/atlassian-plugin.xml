@@ -1,0 +1,61 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+
+    <!-- #1 Project information can be modify by the POM -->
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/amazon.jpg</param>
+        <param name="plugin-logo">images/amazon.jpg</param>
+    </plugin-info>
+
+    <!-- #2 we need to defind a location to store our information
+        [location=yourVirtualDir] -->
+    <resource type="i18n" name="i18n" location="store" />
+
+    <!-- #3 create a store to save our resources in the web, 
+        this goes inside [web-resource] tag -->
+    <web-resource key="store-resources" name="store resources for web contain">
+        <!-- dependency -->
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <!-- our resources js, css, img, etc -->
+        <resource type="download" name="styles.css" location="/css/styles.css" />
+        <resource type="download" name="NumericDashboard.js" location="/js/NumericDashboard.js" />
+        <resource type="download" name="Components.js" location="/js/Components.js" />
+        <resource type="download" name="Services.js" location="/js/Services.js" />
+        <resource type="download" name="images/" location="/images" />
+        <!-- need [atl.dashboard] context -->
+        <context>atl.dashboard</context>
+        <!-- create a context 
+            a) gave a name this will match with the one you defined in the
+               NumericDashboard.js define("context/main class name" 
+            b) create a [contex.properties] file at src\main\resources
+            -->
+        <context>dashboard</context>
+    </web-resource>
+    <!-- #4 Dashboard inforamtion -->
+    <dashboard-item key="numericdashboard"
+        i18n-name-key="tittle.key"
+        configurable="true">
+        <definition>
+            <!-- dashboard name -->
+            <title key="Number Field Dashboard" />
+            <!-- dashboard categories -->
+            <categories>
+                <category>Jira</category>
+            </categories>
+            <!-- dashboard author -->
+            <author>
+                <name>anggabrj</name>
+            </author>
+            <!-- dashboard image -->
+            <thumbnail
+                location="/download/resources/${atlassian.plugin.key}:store-resources/images/amazon.jpg" />
+        </definition>
+        <!-- dashboard image -->
+        <description
+            key="${project.description}" />
+        <amd-module>dashboard/NumericDashboard</amd-module>
+        <Optional feature="dynamic-height" />
+    </dashboard-item>
+</atlassian-plugin>
